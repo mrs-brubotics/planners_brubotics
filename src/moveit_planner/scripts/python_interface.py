@@ -12,6 +12,7 @@ from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
 
 import numpy as np
+import warnings
 
 
 def all_close(goal, actual, tolerance):
@@ -41,9 +42,6 @@ class MoveGroupPythonInteface(object):
   def __init__(self):
     super(MoveGroupPythonInteface, self).__init__()
 
-    ## BEGIN_SUB_TUTORIAL setup
-    ##
-    ## First initialize `moveit_commander`_ and a `rospy`_ node:
     moveit_commander.roscpp_initialize(sys.argv)
     rospy.init_node('move_group_python_interface_tutorial', anonymous=True)
 
@@ -70,8 +68,6 @@ class MoveGroupPythonInteface(object):
     display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
                                                    moveit_msgs.msg.DisplayTrajectory,
                                                    queue_size=20)
-
-    ## END_SUB_TUTORIAL
 
     ## BEGIN_SUB_TUTORIAL basic_info
     ##
@@ -103,23 +99,12 @@ class MoveGroupPythonInteface(object):
     self.move_group = move_group
     self.display_trajectory_publisher = display_trajectory_publisher
     self.planning_frame = planning_frame
-    #self.eef_link = eef_link
     self.group_names = group_names
 
 
   def go_to_joint_state(self, joint_cmd):
-    # Copy class variables to local variables to make the web tutorials more clear.
-    # In practice, you should use the class variables directly unless you have a good
-    # reason not to.
     move_group = self.move_group
 
-    ## BEGIN_SUB_TUTORIAL plan_to_joint_state
-    ##
-    ## Planning to a Joint Goal
-    ## ^^^^^^^^^^^^^^^^^^^^^^^^
-    ## The Panda's zero configuration is at a `singularity <https://www.quora.com/Robotics-What-is-meant-by-kinematic-singularity>`_ so the first
-    ## thing we want to do is move it to a slightly better configuration.
-    # We can get the joint values from the group and adjust some of the values:
     joint_goal = move_group.get_current_joint_values()
 
     
@@ -131,32 +116,33 @@ class MoveGroupPythonInteface(object):
     joint_goal.position = joint_cmd
     #joint_goal.velocity = [3.0, 3.0, 3.0]
     #joint_goal.effort = [3.0, 3.0, 3.0]
+    execute_wait = True
+    try:
+      path = move_group.plan(joint_goal)
+      #execute_wait = True
+    except:
+      print "[WARNING] Cannot find any paths."
+      execute_wait = False
+      #warnings.warn("Cannot find a path.")
+      #joint_cmd = move_group.get_current_joint_values()
 
-
-    # The go command can be called with joint values, poses, or without any
-    # parameters if you have already set the pose or joint target for the group
-    #move_group.plan(joint_goal, wait=True)
-    #move_group.set_pose_target(pose_goal)
-    path = move_group.plan(joint_goal)
 
     # Calling ``stop()`` ensures that there is no residual movement
     #move_group.stop()
-
-    print "==== Following the planned path, please wait... "
-    current_position = move_group.get_current_joint_values()
-    distance = np.linalg.norm(np.subtract(current_position, joint_cmd))
-
-    while distance >= 0.1:
+    if execute_wait == True:
+      print "==== Following the planned path, please wait... "
       current_position = move_group.get_current_joint_values()
       distance = np.linalg.norm(np.subtract(current_position, joint_cmd))
-      rospy.sleep(2)
 
-    print "==== Goal achieved!"
+      while distance >= 0.1:
+        current_position = move_group.get_current_joint_values()
+        distance = np.linalg.norm(np.subtract(current_position, joint_cmd))
+        rospy.sleep(2)
+
+      print "==== Goal achieved!"
     
 
     return all_close(joint_goal, joint_goal, 0.01)
-
-
 
 
 
@@ -175,13 +161,26 @@ def main():
 
     print "==== Press `Enter` to execute a movement using a customized goal position [x, y, z]."
     raw_input()
-    print "==== Input goal position (workspace: -50<x<50, -50<y<50, 0.5<z<3):"
+    print "==== Input goal position (workspace: -50<x<50, -50<y<50, 0.5<z<10):"
     cmd_x = float(raw_input("x = "))
     cmd_y = float(raw_input("y = "))
     cmd_z = float(raw_input("z = "))
     planner.go_to_joint_state([cmd_x, cmd_y, cmd_z])
-
-
+    
+    while True:
+      print "==== Press `Enter` to try again or type `q` to quit."
+      choice = raw_input()
+      if choice == "":
+        print "==== Input goal position (workspace: -50<x<50, -50<y<50, 0.5<z<3):"
+        cmd_x = float(raw_input("x = "))
+        cmd_y = float(raw_input("y = "))
+        cmd_z = float(raw_input("z = "))
+        planner.go_to_joint_state([cmd_x, cmd_y, cmd_z])
+      elif choice == "q":
+        break
+      else:
+        print "==== Invalid input, please press `Enter` or `q`."
+    
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:
