@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/liu/planners_brubotics/devel -DCMAKE_INSTALL_PREFIX=/home/liu/planners_brubotics/install -G Unix Makefiles
