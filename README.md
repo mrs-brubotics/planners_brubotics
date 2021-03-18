@@ -8,11 +8,11 @@
 pip install numpy
 ```
 ## Quick Test 
-* Run mrs: go ~/mrs_workspace/src/simulation/example_tmux_scripts/one_drone_gps, run:
+* Run mrs: go to ~/mrs_workspace/src/simulation/example_tmux_scripts/one_drone_gps, run:
 ```
 ./start.sh
 ```
-* Go planners_brubotics workspace, run:
+* Go to planners_brubotics workspace, run:
 ```
 source devel/setup.bash
 ```
