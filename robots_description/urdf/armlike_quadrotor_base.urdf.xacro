@@ -35,7 +35,7 @@
       <parent link="y_link"/>
       <child link="z_link"/>
       <axis xyz = "0 0 1"/>
-      <limit lower="0.5" upper="10" effort="5" velocity="5"/>
+      <limit lower="0.5" upper="10" effort="10" velocity="5"/>
     </joint>
 
     <link name="z_link"/>
@@ -56,19 +56,25 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robots_description/meshes/quadrotor/quadrotor_base.dae"/>
+          <mesh filename="package://planners_brubotics/robots_description/meshes/quadrotor/quadrotor_base.dae"/>
         </geometry>
       </visual>
 
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robots_description/meshes/quadrotor/quadrotor_base.stl"/>
+          <mesh filename="package://planners_brubotics/robots_description/meshes/quadrotor/quadrotor_base.stl"/>
         </geometry>
       </collision>
     </link>
 
 
 
- </xacro:macro>
+
+    <!-- Sonar height sensor -->
+    <!--<xacro:sonar_sensor name="sonar" parent="base_link" ros_topic="sonar_height" update_rate="10" min_range="0.03" max_range="3.0" field_of_view="${40*pi/180}" ray_count="3">
+      <origin xyz="-0.16 0.0 -0.012" rpy="0 ${90*pi/180} 0"/>
+    </xacro:sonar_sensor>-->
+
+  </xacro:macro>
 </robot>

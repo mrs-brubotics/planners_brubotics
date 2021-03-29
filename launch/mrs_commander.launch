@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="mrs_commander" pkg="planners_brubotics" type="mrs_commander.py" respawn="false" output="screen">
+  </node>
+
+</launch>

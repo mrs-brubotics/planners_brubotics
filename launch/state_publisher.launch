@@ -1,0 +1,7 @@
+<launch>
+  <!-- aligning frames uav1/gps_origin & world & geometry_center -->>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_01" args="0 0 0 0 0 0 uav1/gps_origin world" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_02" args="0 0 0 0 0 0 world geometry_center" />
+  <!-- publish the position of the drone in mrs -->
+  <node name="mrs_connection" pkg="planners_brubotics" type="state_publisher.py" ></node>
+</launch>
