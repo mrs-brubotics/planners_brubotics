@@ -1,0 +1,9 @@
+controller_list:
+  - name: fake_navigation_group_controller
+    joints:
+      - direction_x
+      - direction_y
+      - direction_z
+#initial:  # Define initial robot poses.
+#  - group: navigation_group
+#    pose: home

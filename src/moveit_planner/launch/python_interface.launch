@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="python_interface" pkg="moveit_planner" type="python_interface.py" respawn="false" output="screen">
+  </node>
+
+</launch>

@@ -1,0 +1,19 @@
+<launch>
+
+  <!-- Load the octomap as the planning scene -->
+  <!--<include file="$(find load_octomap)/launch/load_octomap.launch">-->
+    <!--<arg name="path" value="path/to/your/octomap.bt"/>
+  </include>-->
+
+  <!-- Publish the current position of the drone in mrs -->>
+  <include file="$(find mrs_connection)/launch/state_publisher.launch"/>
+
+  <!-- The core part of moveit -->
+  <include file="$(find moveit_config)/launch/demo.launch">
+    <arg name="use_rviz" default="false" />
+  </include>
+
+  <!-- Send planned path to mrs -->
+  <include file="$(find mrs_commander)/launch/mrs_commander.launch"/>
+
+</launch>
