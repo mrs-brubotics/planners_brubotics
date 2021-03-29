@@ -10,7 +10,7 @@
 
   <!-- The core part of moveit -->
   <include file="$(find planners_brubotics)/launch/demo.launch">
-    <arg name="use_rviz" default="true" />
+    <arg name="use_rviz" default="false" />
   </include>
 
   <!-- Send planned path to mrs -->
