@@ -1,6 +1,0 @@
-<launch>
-
-  <node name="mrs_commander" pkg="mrs_commander" type="mrs_commander.py" respawn="false" output="screen">
-  </node>
-
-</launch>
