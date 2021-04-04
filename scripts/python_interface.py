@@ -62,6 +62,8 @@ class MoveGroupPythonInteface(object):
     ## This interface can be used to plan and execute motions:
     group_name = "navigation_group"
     move_group = moveit_commander.MoveGroupCommander(group_name)
+    #move_group.set_planner_id("RRTConnectkConfigDefault")
+    move_group.set_planner_id("RRTstar")
 
     ## Create a `DisplayTrajectory`_ ROS publisher which is used to display
     ## trajectories in Rviz:
@@ -69,28 +71,13 @@ class MoveGroupPythonInteface(object):
                                                    moveit_msgs.msg.DisplayTrajectory,
                                                    queue_size=20)
 
-    ## BEGIN_SUB_TUTORIAL basic_info
-    ##
-    ## Getting Basic Information
-    ## ^^^^^^^^^^^^^^^^^^^^^^^^^
-    # We can get the name of the reference frame for this robot:
+
     planning_frame = move_group.get_planning_frame()
     print "==== Planning frame: %s" % planning_frame
 
-    # We can also print the name of the end-effector link for this group:
-    #eef_link = move_group.get_end_effector_link()
-    #print "==== End effector link: %s" % eef_link
 
-    # We can get a list of all the groups in the robot:
     group_names = robot.get_group_names()
     print "==== Available Planning Groups:", robot.get_group_names()
-
-    # Sometimes for debugging it is useful to print the entire state of the
-    # robot:
-    #print "============ Printing robot state"
-    #print robot.get_current_state()
-    #print ""
-    ## END_SUB_TUTORIAL
 
     # Misc variables
     self.box_name = ''
@@ -104,18 +91,14 @@ class MoveGroupPythonInteface(object):
 
   def go_to_joint_state(self, joint_cmd):
     move_group = self.move_group
+    
 
     joint_goal = move_group.get_current_joint_values()
-
-    
 
     joint_goal = sensor_msgs.msg.JointState()
     joint_goal.header.frame_id = "world"
     joint_goal.name = ["direction_x", "direction_y", "direction_z"]
-    #joint_goal.position = [10.0, 0.0, 2.0]
     joint_goal.position = joint_cmd
-    #joint_goal.velocity = [3.0, 3.0, 3.0]
-    #joint_goal.effort = [3.0, 3.0, 3.0]
     execute_wait = True
     try:
       path = move_group.plan(joint_goal)
@@ -123,12 +106,7 @@ class MoveGroupPythonInteface(object):
     except:
       print "[WARNING] Cannot find any paths."
       execute_wait = False
-      #warnings.warn("Cannot find a path.")
-      #joint_cmd = move_group.get_current_joint_values()
 
-
-    # Calling ``stop()`` ensures that there is no residual movement
-    #move_group.stop()
     if execute_wait == True:
       print "==== Following the planned path, please wait... "
       current_position = move_group.get_current_joint_values()

@@ -18,11 +18,11 @@ def main():
     box_pose = geometry_msgs.msg.PoseStamped()
     box_pose.header.frame_id = "geometry_center"
     box_pose.pose.orientation.w = 1.0
-    box_pose.pose.position.x = 3
-    box_pose.pose.position.y = 3
-    box_pose.pose.position.z = 0.5 
+    box_pose.pose.position.x = 3.0
+    box_pose.pose.position.y = 0.0
+    box_pose.pose.position.z = 2.5 
     box_name = "box"
-    scene.add_box(box_name, box_pose, size=(1, 1, 1))
+    scene.add_box(box_name, box_pose, size=(0.3, 5.0, 5.0))
 
     current_known_objects = scene.get_known_object_names()
     timeout = 4
