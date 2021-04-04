@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="add_objects" pkg="planners_brubotics" type="add_objects.py" respawn="false" output="screen">
+  </node>
+
+</launch>
