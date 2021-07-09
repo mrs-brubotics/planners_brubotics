@@ -1,0 +1,12 @@
+takeoff:
+  after_takeoff:
+    controller: "Se3BruboticsController"
+    tracker: "DergbryanTracker"
+  takeoff_height: 1.0 # 1.5 # [m]
+# detecting if desired thrust cross max threshold, triggers landing after that
+max_thrust:
+  enabled: true
+  rate: 30 # [Hz]
+  max_thrust: 1.0 #0.80 #0.99 #0.80 # [-]
+  eland_timeout: 5.0 #1.0 # [s]
+  ungrip_timeout: 0.5 # [s]
