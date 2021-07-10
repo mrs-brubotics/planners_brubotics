@@ -11,16 +11,11 @@ windows:
       layout: tiled
       panes:
         - waitForRos; roslaunch mrs_simulation simulation.launch gui:=true world_name:=forest
-  - rviz:
-      layout: tiled
-      panes:
-        - waitForSimulation; roslaunch mrs_uav_testing rviz.launch name:=bumper_test
-        - waitForSimulation; roslaunch mrs_rviz_plugins load_robot.launch
-        - waitForSimulation; roslaunch mrs_rviz_plugins rviz_interface.launch
   - cloud: 
       layout: tiled
       panes:
         - waitForOdometry; roslaunch testing_brubotics realsense_cloud.launch
+        - waitForOdometry; roslaunch planners_brubotics octomap_mapping.launch
   - spawn:
       layout: tiled
       panes:
@@ -50,7 +45,6 @@ windows:
   - planner:
       layout: tiled
       panes:
-        - waitForControl; waitForControl; roslaunch mrs_uav_general logitech_joystick.launch
         - waitForControl; waitForControl; roslaunch planners_brubotics execute.launch
         - waitForControl; waitForControl; roslaunch planners_brubotics python_interface.launch
   - gazebo_camera_follow:

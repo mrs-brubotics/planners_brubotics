@@ -1,3 +1,3 @@
 <launch>
-
+<rosparam command="load" file="$(find planners_brubotics)/config/sensors_3d.yaml" />
 </launch>

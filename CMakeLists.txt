@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1.3)
 project(planners_brubotics)
 
 find_package(catkin REQUIRED)
-
+find_package(octomap REQUIRED)
 catkin_package()
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}

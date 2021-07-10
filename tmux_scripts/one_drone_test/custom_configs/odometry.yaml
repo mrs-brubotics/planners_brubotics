@@ -1,0 +1,18 @@
+# see https://github.com/ctu-mrs/mrs_uav_odometry/blob/master/config/default_config.yaml
+
+# Estimators used during takeoff
+# Lateral state estimator:
+# OPTFLOW, GPS, OPTFLOWGPS, RTK, ICP, VIO, HECTOR
+lateral_estimator: "RTK"
+
+# Altitude state estimator:
+# HEIGHT - rangefinder
+altitude_estimator: "RTK" #"HEIGHT"
+
+# altitude estimation parameters# #{
+ 
+altitude:
+  # Altitude limits
+  # max_default: 30.0 # Used only when max_height could not be loaded from world file
+  # Use RTK altitude
+  use_rtk_altitude: true #false # has to be true for correct TF when using RTK altitude

@@ -4,7 +4,7 @@ max_iterations_after_collision_free: 5
 smoothness_cost_weight: 0.1
 obstacle_cost_weight: 1.0
 learning_rate: 0.01
-smoothness_cost_velocity: 0.0
+smoothness_cost_velocity: 1.0
 smoothness_cost_acceleration: 1.0
 smoothness_cost_jerk: 0.0
 ridge_factor: 0.01

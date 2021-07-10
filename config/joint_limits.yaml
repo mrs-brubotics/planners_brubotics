@@ -3,17 +3,17 @@
 # Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
 joint_limits:
   direction_x:
-    has_velocity_limits: true
+    has_velocity_limits: false
     max_velocity: 5
     has_acceleration_limits: false
     max_acceleration: 0
   direction_y:
-    has_velocity_limits: true
+    has_velocity_limits: false
     max_velocity: 5
     has_acceleration_limits: false
     max_acceleration: 0
   direction_z:
-    has_velocity_limits: true
+    has_velocity_limits: false
     max_velocity: 5
     has_acceleration_limits: false
     max_acceleration: 0

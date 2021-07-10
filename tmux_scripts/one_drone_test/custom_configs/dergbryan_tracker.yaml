@@ -1,0 +1,17 @@
+# network:
+#   robot_names: [
+#     uav1, uav2, uav3, uav4 #, uav5, uav6, uav7, uav8, uav9 , uav10
+#   ]
+
+# prediction:
+#   horizon: 1.5
+
+use_derg: false
+# use_wall_constraints: false
+# use_cylindrical_constraints: false
+# use_agents_avoidance: false
+# network : 
+#   robot_names: [
+#     "uav1",
+#     "uav2",
+#     ]
