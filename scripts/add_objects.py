@@ -18,11 +18,76 @@ def main():
     box_pose = geometry_msgs.msg.PoseStamped()
     box_pose.header.frame_id = "geometry_center"
     box_pose.pose.orientation.w = 1.0
-    box_pose.pose.position.x = 3.0
-    box_pose.pose.position.y = 0.0
+    box_pose.pose.position.x = 2
+    box_pose.pose.position.y = 1.25
     box_pose.pose.position.z = 2.5 
     box_name = "box"
-    scene.add_box(box_name, box_pose, size=(0.3, 5.0, 5.0))
+    scene.add_box(box_name, box_pose, size=(0.3, 7.5, 5.0))
+
+    box_pose = geometry_msgs.msg.PoseStamped()
+    box_pose.header.frame_id = "geometry_center"
+    box_pose.pose.orientation.w = 1.0
+    box_pose.pose.position.x = 0.0
+    box_pose.pose.position.y = -2.7
+    box_pose.pose.position.z = 2.5 
+    box_name = "box1"
+    scene.add_box(box_name, box_pose, size=(5.0, 0.3, 5.0))
+
+    box_pose = geometry_msgs.msg.PoseStamped()
+    box_pose.header.frame_id = "geometry_center"
+    box_pose.pose.orientation.w = 1.0
+    box_pose.pose.position.x = -2.0
+    box_pose.pose.position.y = 1.5
+    box_pose.pose.position.z = 2.5 
+    box_name = "box2"
+    #scene.add_box(box_name, box_pose, size=(0.3, 3.0, 5.0))
+
+
+    box_pose = geometry_msgs.msg.PoseStamped()
+    box_pose.header.frame_id = "geometry_center"
+    box_pose.pose.orientation.w = 1.0
+    box_pose.pose.position.x = -3.0
+    box_pose.pose.position.y = 1.0
+    box_pose.pose.position.z = 2.5 
+    box_name = "box3"
+    scene.add_box(box_name, box_pose, size=(5.0, 0.3, 5.0))
+
+    box_pose = geometry_msgs.msg.PoseStamped()
+    box_pose.header.frame_id = "geometry_center"
+    box_pose.pose.orientation.w = 1.0
+    box_pose.pose.position.x = 5.0
+    box_pose.pose.position.y = 1.0
+    box_pose.pose.position.z = 2.5 
+    box_name = "box4"
+    scene.add_box(box_name, box_pose, size=(0.3, 20, 5.0))
+
+
+    box_pose = geometry_msgs.msg.PoseStamped()
+    box_pose.header.frame_id = "geometry_center"
+    box_pose.pose.orientation.w = 1.0
+    box_pose.pose.position.x = -5.0
+    box_pose.pose.position.y = -9.0
+    box_pose.pose.position.z = 2.5 
+    box_name = "box5"
+    scene.add_box(box_name, box_pose, size=(0.3, 20, 5.0))
+
+    box_pose = geometry_msgs.msg.PoseStamped()
+    box_pose.header.frame_id = "geometry_center"
+    box_pose.pose.orientation.w = 1.0
+    box_pose.pose.position.x = -8.0
+    box_pose.pose.position.y = 5.0
+    box_pose.pose.position.z = 2.5 
+    box_name = "box6"
+    scene.add_box(box_name, box_pose, size=(20, 0.3, 5.0))
+
+    box_pose = geometry_msgs.msg.PoseStamped()
+    box_pose.header.frame_id = "geometry_center"
+    box_pose.pose.orientation.w = 1.0
+    box_pose.pose.position.x = 1.0
+    box_pose.pose.position.y = -5.0
+    box_pose.pose.position.z = 2.5 
+    box_name = "box7"
+    scene.add_box(box_name, box_pose, size=(20, 0.3, 5.0))
 
     current_known_objects = scene.get_known_object_names()
     timeout = 4

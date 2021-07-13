@@ -133,9 +133,9 @@ def main():
 
     planner = MoveGroupPythonInteface()
 
-    print "==== Press `Enter` to execute a movement using a set-up goal position [0.0, 0.0, 2.0]."
-    raw_input()
-    planner.go_to_joint_state([0.0, 0.0, 2.0])
+    #print "==== Press `Enter` to execute a movement using a set-up goal position [0.0, 0.0, 2.0]."
+    #raw_input()
+    #planner.go_to_joint_state([0.0, 0.0, 2.0])
 
     print "==== Press `Enter` to execute a movement using a customized goal position [x, y, z]."
     raw_input()
