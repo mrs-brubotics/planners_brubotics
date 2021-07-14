@@ -1,14 +1,13 @@
 # maps
-This folder contains the object and map files which will be used to test our planner, including:
-| Object      | Size               | Center          |
-|-------------|--------------------|-----------------|
-| Wall        | x:0.3 y:5.0 z:5.0  | (3.0, 0.0, 2.5) |
-|Trunk        | r:0.25 l:4         | ()              |
-| Simple_maze |                    |                 |
-| Square_exit |                    |                 |
+This folder contains maps produced by scanning the environmment with a sensor (LIDAR, Depth camera) and generating Octomaps from its pointcloud2 topic. 
 
-There are two ways to give planners the information of the environment:
-* Scene objects
-* Octomap
+To produce one : 
+- Use the one_drone_mapping session with your premade world file you want to map 
+- plan a trajectory to map step by step yor world
+- When you want to save your map, run this line of code WHILE THE OCTOMAP IS RUNNING : rosrun octomap_server octomap_saver -f (yourname).bt 
+
+To load it in your session :
+
+- rosrun octomap_server octomap_server_node Maze2.bt
 
 
