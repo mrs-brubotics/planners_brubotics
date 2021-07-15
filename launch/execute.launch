@@ -1,7 +1,7 @@
 <launch>
 
   <!-- Load the octomap as the planning scene -->
-  <!--<include file="$(find load_octomap)/launch/load_octomap.launch">-->
+  <!--include file="$(find planners_brubotics)/launch/load_octomap.launch"-->
     <!--<arg name="path" value="path/to/your/octomap.bt"/>
   </include>-->
 
@@ -14,7 +14,7 @@
   </include>
 
   <!-- Add obstacles as scene objects -->
-  <include file="$(find planners_brubotics)/launch/add_objects.launch"/>
+  <!--include file="$(find planners_brubotics)/launch/add_objects.launch"/-->
 
   <!-- Send planned path to mrs -->
   <include file="$(find planners_brubotics)/launch/mrs_commander.launch"/>
