@@ -10,16 +10,16 @@ windows:
   - gazebo:
       layout: tiled
       panes:
-        - waitForRos; roslaunch mrs_simulation simulation.launch gui:=true world_name:=forest
+        - waitForRos; roslaunch mrs_simulation simulation.launch gui:=true world_name:=grass_plane
   - cloud: 
       layout: tiled
       panes:
-        - waitForOdometry; roslaunch testing_brubotics realsense_cloud.launch
-        - waitForOdometry; roslaunch planners_brubotics octomap_mapping.launch
+  #      - waitForOdometry; roslaunch testing_brubotics realsense_cloud.launch
+  #      - waitForOdometry; roslaunch planners_brubotics octomap_mapping.launch
   - spawn:
       layout: tiled
       panes:
-        - waitForSimulation; rosservice call /mrs_drone_spawner/spawn "1 $UAV_TYPE --enable-ground-truth --enable-rangefinder --enable_realsense_front" #"
+        - waitForSimulation; rosservice call /mrs_drone_spawner/spawn "1 $UAV_TYPE --enable-ground-truth --enable-rangefinder --enable_realsense_front --pos_file `pwd`/spawn_location.yaml" #"
         # - waitForSimulation; rosservice call /mrs_drone_spawner/spawn "1 $UAV_TYPE --enable-rangefinder --enable-rplidar"
   - status:
       layout: tiled
@@ -52,3 +52,7 @@ windows:
       panes:
         - waitForOdometry; gz camera -c gzclient_camera -f uav1; history -s gz camera -c gzclient_camera -f uav1
         - waitForOdometry; ~/.i3/layout_manager.sh layout.json
+  - load_octomap:
+      layout: tiled
+      panes:
+        - waitForControl; roslaunch planners_brubotics load_octomap.launch
