@@ -1,6 +1,6 @@
-uav2:
-  id: 2
-  x: 6
-  y: 0
+uav1:
+  id: 1
+  x: 3.5
+  y: 6
   z: 0.2
   heading: 0

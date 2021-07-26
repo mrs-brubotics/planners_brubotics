@@ -14,7 +14,7 @@
   </include>
 
   <!-- Add obstacles as scene objects -->
-  <!--include file="$(find planners_brubotics)/launch/add_objects.launch"/-->
+  <include file="$(find planners_brubotics)/launch/add_objects.launch"/>
 
   <!-- Send planned path to mrs -->
   <include file="$(find planners_brubotics)/launch/mrs_commander.launch"/>

@@ -14,8 +14,8 @@ windows:
   - cloud: 
       layout: tiled
       panes:
-  #      - waitForOdometry; roslaunch testing_brubotics realsense_cloud.launch
-  #      - waitForOdometry; roslaunch planners_brubotics octomap_mapping.launch
+        - waitForOdometry; roslaunch testing_brubotics realsense_cloud.launch
+        - waitForOdometry; roslaunch planners_brubotics octomap_mapping.launch
   - spawn:
       layout: tiled
       panes:
@@ -55,4 +55,4 @@ windows:
   - load_octomap:
       layout: tiled
       panes:
-        - waitForControl; roslaunch planners_brubotics load_octomap.launch
+   #     - waitForControl; roslaunch planners_brubotics load_octomap.launch

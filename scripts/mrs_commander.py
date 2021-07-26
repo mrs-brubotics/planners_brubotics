@@ -93,7 +93,7 @@ if __name__ == '__main__':
     Traj.use_heading = False
     Traj.fly_now = True
     Traj.loop = False
-    Traj.dt = 0.08
+    Traj.dt = 0.15
     Traj.points = Reference()
     while not rospy.is_shutdown(): 
         if path_sub.got_it == True:
