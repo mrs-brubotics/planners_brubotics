@@ -53,7 +53,7 @@ class MoveGroupPythonInteface(object):
     ## for getting, setting, and updating the robot's internal understanding of the
     ## surrounding world:
     scene = moveit_commander.PlanningSceneInterface()
-
+    
     ## Instantiate a `MoveGroupCommander`_ object.  This object is an interface
     ## to a planning group (group of joints).  In this tutorial the group is the primary
     ## arm joints in the Panda robot, so we set the group's name to "panda_arm".
@@ -63,8 +63,8 @@ class MoveGroupPythonInteface(object):
     group_name = "navigation_group"
     move_group = moveit_commander.MoveGroupCommander(group_name)
     #move_group.set_planner_id("RRTConnectkConfigDefault")
-    move_group.set_planner_id("RRTstar")
-
+    move_group.set_planner_id("RRTConnect")
+    move_group.allow_replanning(True)
     ## Create a `DisplayTrajectory`_ ROS publisher which is used to display
     ## trajectories in Rviz:
     display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
@@ -91,7 +91,7 @@ class MoveGroupPythonInteface(object):
 
   def go_to_joint_state(self, joint_cmd):
     move_group = self.move_group
-    
+    scene = self.scene
 
     joint_goal = move_group.get_current_joint_values()
 
@@ -103,21 +103,31 @@ class MoveGroupPythonInteface(object):
     try:
       path = move_group.plan(joint_goal)
       #execute_wait = True
-    except:
-      print "[WARNING] Cannot find any paths."
-      execute_wait = False
-
-    if execute_wait == True:
       print "==== Following the planned path, please wait... "
       current_position = move_group.get_current_joint_values()
       distance = np.linalg.norm(np.subtract(current_position, joint_cmd))
 
-      while distance >= 0.1:
+      while distance >= 0.5:
         current_position = move_group.get_current_joint_values()
         distance = np.linalg.norm(np.subtract(current_position, joint_cmd))
-        rospy.sleep(2)
+        #scene.update()
+        path = move_group.plan(joint_goal) #replan
+        rospy.loginfo("Still Far Away : I replan !") #notify the replanning
+        rospy.sleep(0.1)#Replanning rate
+        rospy.loginfo("Woke Up!") #Woke up, start again at line 111 if goal not reached
+        if distance < 0.5:
+          rospy.loginfo("---------------Close enough : I stop replanning--------------")  
+          move_group.clear_pose_targets()
+          
+
 
       print "==== Goal achieved!"
+    except:
+      print "[WARNING] Cannot find any paths."
+      execute_wait = False
+
+    #if execute_wait == True:
+      
     
 
     return all_close(joint_goal, joint_goal, 0.01)

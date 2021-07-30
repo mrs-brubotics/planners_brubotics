@@ -107,6 +107,10 @@ if __name__ == '__main__':
                 #point = [points[i].transforms[0].translation.x, points[i].transforms[0].translation.y, points[i].transforms[0].translation.z]
                 #path.append(point)
             path_sub.got_it = False
+            rospy.loginfo("How many elements in the path ? : %d ", len(path))
+            reduction_factor = int(0.1*len(path))
+            del path[:reduction_factor] #To avoid to take into account the obsolete elements of the path computed while the drone was moving
+            rospy.loginfo("How many elements in the path ? : %d ", len(path))
             #print(path)
             #mrs.publish_trajectory(path)
             # Send the command
