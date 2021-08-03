@@ -1,0 +1,36 @@
+topics: # topics published out of this machine to receivers specified above
+ - name: "control_manager/dergbryan_tracker/DSM"
+   compress: false # enable bz2 compression
+   rate: 2.0
+ - name: "/control_manager/dergbryan_tracker/goal_pose"
+   compress: false # enable bz2 compression
+   rate: 1.0
+ - name: "/control_manager/dergbryan_tracker/custom_predicted_poses"
+   compress: false # enable bz2 compression
+   rate: 1.0   
+ - name: "control_manager/diagnostics"
+   compress: false # enable bz2 compression
+   rate: 1.0
+ - name: "odometry/slow_odom"
+   compress: false # enable bz2 compression
+   rate: 1.0
+ - name: "uav_manager/diagnostics"
+   compress: false # enable bz2 compression
+   rate: 1.0
+ - name: "control_manager/diagnostics"
+   compress: false # enable bz2 compression
+   rate: 1.0
+ - name: "odometry/uav_state"
+   compress: false # enable bz2 compression
+   rate: 1.0   
+
+services:
+  - name: "/*/trajectory_generation/path"
+    type: mrs_msgs/PathSrv
+  - name: "/*/control_manager/goto_trajectory_start"
+    type: std_srvs/Trigger
+  - name: "/*/control_manager/start_trajectory_tracking"
+    type: std_srvs/Trigger
+  - name: "/*/control_manager/trajectory_reference"
+    type: mrs_msgs/TrajectoryReferenceSrv
+

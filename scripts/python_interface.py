@@ -41,7 +41,7 @@ class MoveGroupPythonInteface(object):
   """MoveGroupPythonInteface"""
   def __init__(self):
     super(MoveGroupPythonInteface, self).__init__()
-
+    
     moveit_commander.roscpp_initialize(sys.argv)
     rospy.init_node('move_group_python_interface_tutorial', anonymous=True)
 
@@ -100,25 +100,26 @@ class MoveGroupPythonInteface(object):
     joint_goal.name = ["direction_x", "direction_y", "direction_z"]
     joint_goal.position = joint_cmd
     execute_wait = True
+    replanning_mode = False  #[USER INPUT] 
     try:
       path = move_group.plan(joint_goal)
       #execute_wait = True
       print "==== Following the planned path, please wait... "
       current_position = move_group.get_current_joint_values()
       distance = np.linalg.norm(np.subtract(current_position, joint_cmd))
-
-      while distance >= 0.5:
-        current_position = move_group.get_current_joint_values()
-        distance = np.linalg.norm(np.subtract(current_position, joint_cmd))
-        #scene.update()
-        path = move_group.plan(joint_goal) #replan
-        rospy.loginfo("Still Far Away : I replan !") #notify the replanning
-        rospy.sleep(0.1)#Replanning rate
-        rospy.loginfo("Woke Up!") #Woke up, start again at line 111 if goal not reached
-        if distance < 0.5:
-          rospy.loginfo("---------------Close enough : I stop replanning--------------")  
-          move_group.clear_pose_targets()
-          
+      if replanning_mode == True:
+        while distance >= 0.5:
+          current_position = move_group.get_current_joint_values()
+          distance = np.linalg.norm(np.subtract(current_position, joint_cmd))
+          #scene.update()
+          path = move_group.plan(joint_goal) #replan
+          rospy.loginfo("Still Far Away : I replan !") #notify the replanning
+          rospy.sleep(1)#Replanning rate #[USER INPUT] 
+          rospy.loginfo("Woke Up!") #Woke up, start again at line 111 if goal not reached
+          if distance < 0.5:
+            rospy.loginfo("---------------Close enough : I stop replanning--------------")  
+            move_group.clear_pose_targets()
+      move_group.clear_pose_targets()    
 
 
       print "==== Goal achieved!"

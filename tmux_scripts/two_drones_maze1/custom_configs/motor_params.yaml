@@ -1,0 +1,12 @@
+# The motor parameters below SHOULD be used when flying in simulation!!
+motor_params:
+  n_motors: 4
+  a: 0.4624
+  b: -0.4545
+
+
+# [USER INPUT] The motor parameters below SHOULD be used when flying with hardware!!
+#motor_params:
+#  n_motors: 4
+#  a: 0.4624      
+#  b: -0.4545

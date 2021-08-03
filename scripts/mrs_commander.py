@@ -2,6 +2,7 @@
 
 from numpy.core.numeric import False_
 import rospy
+import math
 from geometry_msgs.msg import Point 
 from moveit_msgs.msg import DisplayTrajectory
 from mrs_msgs.msg import UavState
@@ -93,8 +94,9 @@ if __name__ == '__main__':
     Traj.use_heading = False
     Traj.fly_now = True
     Traj.loop = False
-    Traj.dt = 0.15
+    Traj.dt = 0.2
     Traj.points = Reference()
+    replanning_mode = False
     while not rospy.is_shutdown(): 
         if path_sub.got_it == True:
             print("Got a new path!")
@@ -108,9 +110,18 @@ if __name__ == '__main__':
                 #path.append(point)
             path_sub.got_it = False
             rospy.loginfo("How many elements in the path ? : %d ", len(path))
-            reduction_factor = int(0.1*len(path))
-            del path[:reduction_factor] #To avoid to take into account the obsolete elements of the path computed while the drone was moving
+            if replanning_mode == True:
+                reduction_factor = int(math.ceil(0.1*len(path)))
+                #if len(path) < 50:
+                #    reduction_factor =  int(math.ceil(0.3*len(path)))
+                #elif len(path)<25:
+                #    reduction_factor =  int(math.ceil(0.5*len(path)))
+                #elif len(path)<10:
+                #    reduction_factor =  len(path)-1                
+                del path[:reduction_factor] #To avoid to take into account the obsolete elements of the path computed while the drone was moving
             rospy.loginfo("How many elements in the path ? : %d ", len(path))
+            #if mrs.distance(mrs.take_observation,path[1])  <   mrs.distance(mrs.take_observation,previ_path[1]):
+            #    path
             #print(path)
             #mrs.publish_trajectory(path)
             # Send the command

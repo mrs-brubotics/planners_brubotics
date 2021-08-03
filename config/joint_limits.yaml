@@ -5,20 +5,20 @@ joint_limits:
   direction_x:
     has_velocity_limits: false
     max_velocity: 50
-    max_position: 5 #10
-    min_position: -7 #-25
+    max_position: 9 #10
+    min_position: -11 #-25
     has_acceleration_limits: false
     max_acceleration: 5
   direction_y:
     has_velocity_limits: false
     max_velocity: 50
     max_position: 8 #10
-    min_position: -5 #-15
+    min_position: -6 #-15
     has_acceleration_limits: false
     max_acceleration: 5
   direction_z:
     has_velocity_limits: false
-    max_position: 4
+    max_position: 3
     max_velocity: 5
     has_acceleration_limits: false
     max_acceleration: 5
