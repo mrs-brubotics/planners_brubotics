@@ -7,8 +7,17 @@ from nav_msgs.msg import Odometry
 
 class subscriber_class:
   def __init__(self):
-    self.sub = rospy.Subscriber("/uav1/odometry/odom_gps", Odometry,self.callback)
+    uav_name = rospy.get_param("/uav_name")
+    uav_prefix = '/'+uav_name
+    uav_prefix
+    print('**********************')
+    print(uav_prefix)
+    print('**********************')    
+    pos_topic_name = "/odometry/odom_gps"
+    pos_topic_name = uav_prefix + pos_topic_name
+    self.sub = rospy.Subscriber(pos_topic_name, Odometry,self.callback)
     self.odo_data = Odometry()
+    self.uav_name = uav_prefix
 
   def callback(self,data):
     self.odo_data = data
@@ -18,9 +27,10 @@ class subscriber_class:
 def main(args):
   # Define subscriber
   odo = subscriber_class()
-
+  joint_topic = '/joint_states'
+  joint_topic = odo.uav_name + '/joint_states'
   # Define Publisher
-  pub = rospy.Publisher('/joint_states', JointState, queue_size=10)
+  pub = rospy.Publisher(joint_topic, JointState, queue_size=10)
 
   joint_data = JointState()
   #odo_data = odo.odo_data
@@ -32,6 +42,7 @@ def main(args):
         #joint_data.header.frame_id = "geometry_center"
         joint_data.name = ["direction_x", "direction_y", "direction_z"]
         joint_data.position = [odo_data.pose.pose.position.x, odo_data.pose.pose.position.y, odo_data.pose.pose.position.z]
+        rospy.loginfo('The Name is : %s',odo.uav_name)
         pub.publish(joint_data)
     
     except KeyboardInterrupt:

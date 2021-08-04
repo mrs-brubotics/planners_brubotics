@@ -53,7 +53,11 @@ class MoveGroupPythonInteface(object):
     ## for getting, setting, and updating the robot's internal understanding of the
     ## surrounding world:
     scene = moveit_commander.PlanningSceneInterface()
-    
+    uav_name = rospy.get_param("/uav_name")
+    uav_prefix = '/'+uav_name
+    print('**********************')
+    print(uav_prefix)
+    print('**********************')
     ## Instantiate a `MoveGroupCommander`_ object.  This object is an interface
     ## to a planning group (group of joints).  In this tutorial the group is the primary
     ## arm joints in the Panda robot, so we set the group's name to "panda_arm".
@@ -67,7 +71,9 @@ class MoveGroupPythonInteface(object):
     move_group.allow_replanning(True)
     ## Create a `DisplayTrajectory`_ ROS publisher which is used to display
     ## trajectories in Rviz:
-    display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
+    topic_name = '/move_group/display_planned_path'
+    topic_name = uav_prefix + topic_name
+    display_trajectory_publisher = rospy.Publisher(topic_name,
                                                    moveit_msgs.msg.DisplayTrajectory,
                                                    queue_size=20)
 
@@ -141,7 +147,7 @@ def main():
     print "---------------------------------------"
     print "  Welcome to the Moveit Path Planner"
     print "---------------------------------------"
-
+    
     planner = MoveGroupPythonInteface()
 
     #print "==== Press `Enter` to execute a movement using a set-up goal position [0.0, 0.0, 2.0]."

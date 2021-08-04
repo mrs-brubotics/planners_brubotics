@@ -19,7 +19,12 @@ class path_subscriber:
     def __init__(self):
         self.got_it = False
         self.way_points = [] # way_points is a trajectory_msgs/JointTrajectoryPoint[] list
-
+        uav_name = rospy.get_param("/uav_name")
+        uav_prefix = '/'+uav_name
+        self.uav_name = uav_prefix
+        print('**********************')
+        print(uav_prefix)
+        print('**********************')
     def callback(self, data):
         # Points is a list
         self.got_it = True
@@ -30,13 +35,28 @@ class path_subscriber:
     def listener(self):
         #rospy.init_node('trajectory_listener', anonymous=False)
         print("Listening Right Now !")
-        rospy.Subscriber("/move_group/display_planned_path", DisplayTrajectory, self.callback)
+        listen_to = "/move_group/display_planned_path"
+        listen_to = self.uav_name + listen_to
+        print('**********************')
+        print(self.uav_name)
+        print('**********************')
+        rospy.Subscriber(listen_to, DisplayTrajectory, self.callback)
 
 
 class mrs_utils:
     def __init__(self):
-        self.position_cmd_call = rospy.ServiceProxy('/uav1/control_manager/goto', Vec4) #rospy.ServiceProxy('/uav1/control_manager/trajectory_reference', TrajectoryReferenceSrv)
-        self.traj = rospy.ServiceProxy('/uav1/control_manager/trajectory_reference',TrajectoryReferenceSrv)
+        uav_name = rospy.get_param("/uav_name")
+        uav_prefix = '/'+uav_name
+        self.uav_name = uav_prefix
+        print('**********************')
+        print(uav_prefix)
+        print('**********************')
+        #Goto_srv = '/uav1/control_manager/goto'
+        #Traj_srv = '/uav1/control_manager/trajectory_reference'
+        Goto_srv = self.uav_name + '/control_manager/goto'
+        Traj_srv = self.uav_name + '/control_manager/trajectory_reference'
+        self.position_cmd_call = rospy.ServiceProxy(Goto_srv, Vec4) #rospy.ServiceProxy('/uav1/control_manager/trajectory_reference', TrajectoryReferenceSrv)
+        self.traj = rospy.ServiceProxy(Traj_srv,TrajectoryReferenceSrv)
         self.tolerable_error = 0.2
 
     def take_observation(self):
@@ -44,7 +64,8 @@ class mrs_utils:
         
         while data_pose is None:
             try:
-                data_uavstate = rospy.wait_for_message('/uav1/odometry/uav_state', UavState, timeout=1)
+                uav_state_topic = self.uav_name + '/odometry/uav_state'
+                data_uavstate = rospy.wait_for_message(uav_state_topic, UavState, timeout=1)
                 data_pose = data_uavstate.pose 
             except:
                 #a = 1
