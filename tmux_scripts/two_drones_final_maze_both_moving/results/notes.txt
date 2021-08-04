@@ -1,0 +1,49 @@
+Tests done with : 
+
+Check the [USER INPUT] in the related files
+-------------- DergbryanTracker.yaml -------------------
+
+dynamic_safety_margin:
+  kappa:
+    s: 10 #20 #27 # 27 , 35, 38, 40, 60
+    w: 1.1
+    o: 10
+    a: 20   
+
+agent_collision_volumes:
+  sphere:
+    radius: 0.5 # a step of 4.5m in xy does not lead to instability.
+  tube:
+    radius: 
+      lateral: 0.5 #1.5 #1.0 
+      longitudinal: 0.5 # = sphere/radius - tube/radius/lateral
+navigation_field:
+  attraction:
+    smoothing_ratio: 1 # smoothing factor
+  repulsion:
+    agents:
+      enabled: true
+      use_tube: false
+      influence_margin: 1 #8.0 #4.0 # choose large enough to give uavs time to react. Increase for increased DSMs.
+      static_safety_margin: 0.5 # 0.00 # test if agents on a line don't collide without circulation. Increase untill no collsiions. Or check single agent step response deviation of simulation vs reality.
+      circulation_gain: 0.5 # put on value < 10^-4 (e.g; 0.0) to switch off. 
+      circulation_type: "xy" # "xy", "xz", "yz", "xyz"
+    static_obstacle: 
+      enabled: true
+      influence_margin: 1 # called before sigma, now zeta
+      static_safety_margin: 0.5 # delta_o
+      circulation_gain: 0.5 
+      circulation_type: "xy" # "xy", "xz", "yz", "xyz"
+      obstacle_position_x : 0
+      obstacle_position_y: 0
+      radius : 0.25 #0.5 +0.5 of security (see /worlds/...)
+---------------------------------------------------------------------
+------------- python interface.py -----------------------------------
+Replanning rate : 1 or 10 Hz
+------------- mrs_commander.py -----------------
+reduction_factor : 0.1
+Traj.dt = 0.2 (DO NOT CHANGE THAT THOUGH)
+
+
+
+
