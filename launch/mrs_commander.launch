@@ -1,6 +1,8 @@
 <launch>
-
-  <node name="mrs_commander" pkg="planners_brubotics" type="mrs_commander.py" respawn="false" output="screen">
-  </node>
-
+  <arg name="UAV_NAME" default="$(env UAV_NAME)" />
+  <group ns="$(arg UAV_NAME)">
+    <node name="mrs_commander" pkg="planners_brubotics" type="mrs_commander.py" respawn="false" output="screen">
+      <param name="uav_name" value="$(arg UAV_NAME)" />
+    </node>
+  </group>
 </launch>

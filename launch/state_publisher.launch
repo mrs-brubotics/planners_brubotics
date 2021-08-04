@@ -1,7 +1,12 @@
 <launch>
+  <arg name="UAV_NAME" default="$(env UAV_NAME)" />
   <!-- aligning frames uav1/gps_origin & world & geometry_center -->>
-  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_01" args="0 0 0 0 0 0 uav1/gps_origin world" />
-  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_02" args="0 0 0 0 0 0 world geometry_center" />
-  <!-- publish the position of the drone in mrs -->
-  <node name="mrs_connection" pkg="planners_brubotics" type="state_publisher.py" ></node>
+  <group ns="$(arg UAV_NAME)">
+    <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_01" args="0 0 0 0 0 0 $(arg UAV_NAME)/gps_origin world" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_02" args="0 0 0 0 0 0 world geometry_center" />
+    <!-- publish the position of the drone in mrs -->
+    <node name="mrs_connection" pkg="planners_brubotics" type="state_publisher.py" >
+      <param name="uav_name" value="$(arg UAV_NAME)" />
+    </node>
+  </group>
 </launch>

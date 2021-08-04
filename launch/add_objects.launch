@@ -1,6 +1,7 @@
 <launch>
-
-  <node name="add_objects" pkg="planners_brubotics" type="add_objects.py" respawn="false" output="screen">
-  </node>
-
+  <arg name="UAV_NAME" default="$(env UAV_NAME)" />
+  <group ns="$(arg UAV_NAME)">
+    <node name="add_objects" pkg="planners_brubotics" type="add_objects_big_maze.py" respawn="false" output="screen">
+    </node>
+  </group>
 </launch>

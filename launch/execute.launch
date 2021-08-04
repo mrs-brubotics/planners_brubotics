@@ -1,16 +1,16 @@
 <launch>
-
+  <arg name="UAV_NAME" default="$(env UAV_NAME)" />
   <!-- Load the octomap as the planning scene -->
   <!--include file="$(find planners_brubotics)/launch/load_octomap.launch"-->
     <!--<arg name="path" value="path/to/your/octomap.bt"/>
   </include>-->
-
+  <param name="uav_name" value="$(arg UAV_NAME)" />
   <!-- Publish the current position of the drone in mrs -->
   <include file="$(find planners_brubotics)/launch/state_publisher.launch"/>
-
+    
   <!-- The core part of moveit -->
   <include file="$(find planners_brubotics)/launch/demo.launch">
-    <arg name="use_rviz" default="true" />
+    <arg name="use_rviz" default="false" />
   </include>
 
   <!-- Add obstacles as scene objects -->
@@ -18,5 +18,4 @@
 
   <!-- Send planned path to mrs -->
   <include file="$(find planners_brubotics)/launch/mrs_commander.launch"/>
-
 </launch>
