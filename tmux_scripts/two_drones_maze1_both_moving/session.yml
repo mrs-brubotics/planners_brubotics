@@ -1,0 +1,116 @@
+name: simulation
+root: ./
+pre_window: export UAV_NAME=uav1; export RUN_TYPE=simulation; export UAV_TYPE=f450; export ODOMETRY_TYPE="rtk"; export TRACKER_NAME="dergbryan_tracker"; export CONTROLLER_NAME="se3_brubotics_controller"
+startup_window: status
+windows:
+  - roscore:
+      layout: tiled
+      panes:
+        - roscore
+  - gazebo:
+      layout: tiled
+      panes:
+        - waitForRos; roslaunch mrs_simulation simulation.launch gui:=true world_file:='$(find testing_brubotics)/simulation/worlds/Maze_big.world'
+  - spawn:
+      layout: tiled
+      panes:
+        - waitForSimulation; rosservice call /mrs_drone_spawner/spawn "1 2 $UAV_TYPE --enable-ground-truth --enable-rangefinder --pos_file `pwd`/spawn_location.yaml" #"
+        # - waitForSimulation; rosservice call /mrs_drone_spawner/spawn "1 $UAV_TYPE --enable-rangefinder --enable-rplidar"
+  - status:
+      layout: tiled
+      panes:
+        - waitForOdometry; roslaunch mrs_uav_status status.launch
+  - control:
+      layout: tiled
+      panes:
+        - waitForOdometry; roslaunch controllers_brubotics controllers_brubotics.launch custom_config_se3_brubotics_controller:=custom_configs/gains/se3_brubotics.yaml; roslaunch trackers_brubotics trackers_brubotics.launch custom_config_dergbryan_tracker:=custom_configs/dergbryan_tracker.yaml; roslaunch mrs_uav_general core.launch config_odometry:=custom_configs/odometry.yaml config_motor_params:=custom_configs/motor_params.yaml config_control_manager:=custom_configs/control_manager.yaml config_uav_manager:=custom_configs/uav_manager.yaml 
+        - export UAV_NAME=uav2; waitForOdometry; roslaunch controllers_brubotics controllers_brubotics.launch custom_config_se3_brubotics_controller:=custom_configs/gains/se3_brubotics.yaml; roslaunch trackers_brubotics trackers_brubotics.launch custom_config_dergbryan_tracker:=custom_configs/dergbryan_tracker.yaml; roslaunch mrs_uav_general core.launch config_odometry:=custom_configs/odometry.yaml config_motor_params:=custom_configs/motor_params.yaml config_control_manager:=custom_configs/control_manager.yaml config_uav_manager:=custom_configs/uav_manager.yaml 
+  - autostart:
+      layout: tiled
+      panes:
+        - waitForSimulation; roslaunch mrs_uav_general automatic_start.launch
+        - waitForSimulation; export UAV_NAME=uav2; roslaunch mrs_uav_general automatic_start.launch
+  - takeoff:
+      layout: tiled
+      panes:
+        #{ uav1
+        - 'waitForControl;
+          rosservice call /$UAV_NAME/mavros/cmd/arming 1;
+          sleep 0.1;
+          rosservice call /$UAV_NAME/mavros/set_mode 0 offboard'
+        #}
+        - 'waitForControl; export UAV_NAME=uav2 ;
+          rosservice call /$UAV_NAME/mavros/cmd/arming 1;
+          sleep 0.1;
+          rosservice call /$UAV_NAME/mavros/set_mode 0 offboard'
+        #}
+  - planner1:
+      layout: tiled
+      panes:
+        - waitForControl; waitForControl; export UAV_NAME=uav1; roslaunch planners_brubotics execute.launch
+        - waitForControl; waitForControl; export UAV_NAME=uav1; roslaunch planners_brubotics python_interface.launch
+  - planner2:
+      layout: tiled
+      panes:
+        - waitForControl; waitForControl;waitForOffboard;sleep 5; export UAV_NAME=uav2; roslaunch planners_brubotics execute.launch
+        - waitForControl; waitForControl;waitForOffboard;sleep 5; export UAV_NAME=uav2; roslaunch planners_brubotics python_interface.launch
+  - gazebo_camera_follow:
+      layout: tiled
+      panes:
+        #- waitForOdometry; gz camera -c gzclient_camera -f uav1; history -s gz camera -c gzclient_camera -f uav1
+        - waitForOdometry; ~/.i3/layout_manager.sh layout.json
+  - rosbag_start_challenge:
+      layout: even-vertical
+      synchronize: after
+      panes:
+        - 'history -s rosbag record -O ./results/bag-$UAV_NAME-$RUN_TYPE-$UAV_TYPE-$ODOMETRY_TYPE-$TRACKER_NAME-$CONTROLLER_NAME.bag
+          /uav1/move_group/display_planned_path
+          /uav2/move_group/display_planned_path
+          /uav1/move_group/goal
+          /uav2/move_group/goal
+          /$UAV_NAME/odometry/odom_main 
+          /$UAV_NAME/odometry/uav_state
+          /$UAV_NAME/odometry/odom_gps
+          /$UAV_NAME/odometry/odom_mavros
+          /$UAV_NAME/odometry/rtk_local_odom
+          /$UAV_NAME/control_manager/attitude_cmd 
+          /$UAV_NAME/control_manager/cmd_odom
+          /$UAV_NAME/control_manager/position_cmd
+          /$UAV_NAME/control_manager/control_error
+          /$UAV_NAME/control_manager/thrust_force 
+          /$UAV_NAME/mavros/setpoint_raw/attitude
+          /$UAV_NAME/mavros/local_position/velocity_body
+          /$UAV_NAME/mavros/imu/data
+          /$UAV_NAME/control_manager/$CONTROLLER_NAME/custom_thrust 
+          /$UAV_NAME/control_manager/$CONTROLLER_NAME/custom_projected_thrust 
+          /$UAV_NAME/control_manager/$CONTROLLER_NAME/thrust_satlimit_physical 
+          /$UAV_NAME/control_manager/$CONTROLLER_NAME/thrust_satlimit 
+          /$UAV_NAME/control_manager/$CONTROLLER_NAME/thrust_satval 
+          /$UAV_NAME/control_manager/$CONTROLLER_NAME/hover_thrust
+          /$UAV_NAME/control_manager/$CONTROLLER_NAME/tilt_angle
+          /$UAV_NAME/control_manager/$TRACKER_NAME/goal_pose
+          /$UAV_NAME/control_manager/$TRACKER_NAME/custom_predicted_poses 
+          /$UAV_NAME/control_manager/$TRACKER_NAME/custom_predicted_vels 
+          /$UAV_NAME/control_manager/$TRACKER_NAME/custom_predicted_accs 
+          /$UAV_NAME/control_manager/$TRACKER_NAME/custom_predicted_attrate 
+          /$UAV_NAME/control_manager/$TRACKER_NAME/custom_predicted_thrust
+          /$UAV_NAME/control_manager/trajectory_reference  
+          /$UAV_NAME/control_manager/$TRACKER_NAME/DSM
+          /uav2/odometry/odom_main 
+          /uav2/odometry/uav_state
+          /uav2/control_manager/attitude_cmd 
+          /uav2/control_manager/cmd_odom
+          /uav2/control_manager/$TRACKER_NAME/goal_pose
+          /uav2/control_manager/$TRACKER_NAME/custom_predicted_poses 
+          /uav2/control_manager/$TRACKER_NAME/custom_predicted_vels 
+          /uav2/control_manager/$TRACKER_NAME/custom_predicted_accs 
+          /uav2/control_manager/$TRACKER_NAME/custom_predicted_attrate 
+          /uav2/control_manager/$TRACKER_NAME/custom_predicted_thrust
+          /uav2/control_manager/trajectory_reference  
+          /uav2/control_manager/$TRACKER_NAME/DSM'
+  - start_trajectory:
+      layout: synchronize
+      panes:
+        - export UAV_NAME=uav1 ; rosservice call /$UAV_NAME/control_manager/start_trajectory_tracking
+        - export UAV_NAME=uav2 ; rosservice call /$UAV_NAME/control_manager/start_trajectory_tracking
+        
