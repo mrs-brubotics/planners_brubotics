@@ -109,7 +109,8 @@ windows:
           /uav2/control_manager/trajectory_reference  
           /uav2/control_manager/$TRACKER_NAME/DSM'
   - start_trajectory:
-      layout: synchronize
+      layout: even-vertical
+      synchronize: after
       panes:
         - export UAV_NAME=uav1 ; rosservice call /$UAV_NAME/control_manager/start_trajectory_tracking
         - export UAV_NAME=uav2 ; rosservice call /$UAV_NAME/control_manager/start_trajectory_tracking
