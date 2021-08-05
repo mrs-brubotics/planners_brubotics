@@ -14,7 +14,7 @@ windows:
   - spawn:
       layout: tiled
       panes:
-        - waitForSimulation; rosservice call /mrs_drone_spawner/spawn "1 $UAV_TYPE --enable-ground-truth --enable-rangefinder --pos_file `pwd`/spawn_location.yaml" #"
+        - waitForSimulation; rosservice call /mrs_drone_spawner/spawn "1 2 $UAV_TYPE --enable-ground-truth --enable-rangefinder --pos_file `pwd`/spawn_location.yaml" #"
         # - waitForSimulation; rosservice call /mrs_drone_spawner/spawn "1 $UAV_TYPE --enable-rangefinder --enable-rplidar"
   - status:
       layout: tiled
@@ -24,7 +24,7 @@ windows:
       layout: tiled
       panes:
         - waitForOdometry; roslaunch controllers_brubotics controllers_brubotics.launch custom_config_se3_brubotics_controller:=custom_configs/gains/se3_brubotics.yaml; roslaunch trackers_brubotics trackers_brubotics.launch custom_config_dergbryan_tracker:=custom_configs/dergbryan_tracker.yaml; roslaunch mrs_uav_general core.launch config_odometry:=custom_configs/odometry.yaml config_motor_params:=custom_configs/motor_params.yaml config_control_manager:=custom_configs/control_manager.yaml config_uav_manager:=custom_configs/uav_manager.yaml 
-        ##- export UAV_NAME=uav2; waitForOdometry; roslaunch controllers_brubotics controllers_brubotics.launch custom_config_se3_brubotics_controller:=custom_configs/gains/se3_brubotics.yaml; roslaunch trackers_brubotics trackers_brubotics.launch custom_config_dergbryan_tracker:=custom_configs/dergbryan_tracker.yaml; roslaunch mrs_uav_general core.launch config_odometry:=custom_configs/odometry.yaml config_motor_params:=custom_configs/motor_params.yaml config_control_manager:=custom_configs/control_manager.yaml config_uav_manager:=custom_configs/uav_manager.yaml 
+        - export UAV_NAME=uav2; waitForOdometry; roslaunch controllers_brubotics controllers_brubotics.launch custom_config_se3_brubotics_controller:=custom_configs/gains/se3_brubotics.yaml; roslaunch trackers_brubotics trackers_brubotics.launch custom_config_dergbryan_tracker:=custom_configs/dergbryan_tracker.yaml; roslaunch mrs_uav_general core.launch config_odometry:=custom_configs/odometry.yaml config_motor_params:=custom_configs/motor_params.yaml config_control_manager:=custom_configs/control_manager.yaml config_uav_manager:=custom_configs/uav_manager.yaml 
   - autostart:
       layout: tiled
       panes:
@@ -38,11 +38,22 @@ windows:
           rosservice call /$UAV_NAME/mavros/cmd/arming 1;
           sleep 0.1;
           rosservice call /$UAV_NAME/mavros/set_mode 0 offboard'
+        #}
+        - 'waitForControl; export UAV_NAME=uav2 ;
+          rosservice call /$UAV_NAME/mavros/cmd/arming 1;
+          sleep 0.1;
+          rosservice call /$UAV_NAME/mavros/set_mode 0 offboard'
+        #}
   - planner1:
       layout: tiled
       panes:
         - waitForControl; waitForControl; export UAV_NAME=uav1; roslaunch planners_brubotics execute.launch
         - waitForControl; waitForControl; export UAV_NAME=uav1; roslaunch planners_brubotics python_interface.launch
+  - planner2:
+      layout: tiled
+      panes:
+        - waitForControl; waitForControl;waitForOffboard;sleep 5; export UAV_NAME=uav2; roslaunch planners_brubotics execute.launch
+        - waitForControl; waitForControl;waitForOffboard;sleep 5; export UAV_NAME=uav2; roslaunch planners_brubotics python_interface.launch
   - gazebo_camera_follow:
       layout: tiled
       panes:
@@ -98,8 +109,7 @@ windows:
           /uav2/control_manager/trajectory_reference  
           /uav2/control_manager/$TRACKER_NAME/DSM'
   - start_trajectory:
-      layout: even-vertical
-      synchronize: after
+      layout: synchronize
       panes:
         - export UAV_NAME=uav1 ; rosservice call /$UAV_NAME/control_manager/start_trajectory_tracking
         - export UAV_NAME=uav2 ; rosservice call /$UAV_NAME/control_manager/start_trajectory_tracking
