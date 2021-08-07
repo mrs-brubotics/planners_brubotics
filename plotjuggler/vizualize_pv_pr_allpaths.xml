@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root version="2.3.8">
+ <tabbed_widget parent="main_window" name="Main Window">
+  <Tab containers="1" tab_name="tab1">
+   <Container>
+    <DockSplitter count="1" orientation="-" sizes="1">
+     <DockArea name="...">
+      <plot mode="TimeSeries" style="Lines">
+       <range top="18.893445" left="-7.246860" right="5.461159" bottom="-22.731452"/>
+       <limitY/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="tab2">
+   <Container>
+    <DockSplitter count="1" orientation="-" sizes="1">
+     <DockArea name="...">
+      <plot mode="XYPlot" style="Lines">
+       <range top="18.893445" left="-31.011360" right="30.094197" bottom="-22.783679"/>
+       <limitY/>
+       <curve curve_y="/uav1/control_manager/dergbryan_tracker/goal_pose/reference/position/y" color="#1184d3" curve_x="/uav1/control_manager/dergbryan_tracker/goal_pose/reference/position/x" name="UAV_reference_p^r"/>
+       <curve curve_y="/uav1/control_manager/cmd_odom/pose/position/y" color="#f52122" curve_x="/uav1/control_manager/cmd_odom/pose/position/x" name="UAV_applied_reference_p^v"/>
+       <curve curve_y="/uav1/trajectory_references/position/y" color="#89fb9d" curve_x="/uav1/trajectory_references/position/x" name="Planner_generated_paths"/>
+       <curve curve_y="/uav1/odometry/uav_state/pose/position/y" color="#f77300" curve_x="/uav1/odometry/uav_state/pose/position/x" name="UAV_position_p"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <currentTabIndex index="1"/>
+ </tabbed_widget>
+ <use_relative_time_offset enabled="1"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <!-- - - - - - - - - - - - - - - -->
+ <Plugins>
+  <plugin ID="DataLoad CSV">
+   <default time_axis=""/>
+  </plugin>
+  <plugin ID="DataLoad ROS bags">
+   <use_header_stamp value="false"/>
+   <use_renaming_rules value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="100"/>
+  </plugin>
+  <plugin ID="DataLoad ULog"/>
+  <plugin ID="LSL Subscriber"/>
+  <plugin ID="MQTT Subscriber"/>
+  <plugin ID="ROS Topic Subscriber">
+   <use_header_stamp value="false"/>
+   <use_renaming_rules value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="100"/>
+  </plugin>
+  <plugin ID="UDP Server"/>
+  <plugin ID="WebSocket Server"/>
+  <plugin ID="ZMQ Subscriber"/>
+  <plugin status="idle" ID="ROS /rosout Visualization"/>
+  <plugin status="idle" ID="ROS Topic Re-Publisher"/>
+ </Plugins>
+ <!-- - - - - - - - - - - - - - - -->
+ <previouslyLoaded_Datafiles>
+  <fileInfo filename="/home/nuc3/workspace/src/droneswarm_brubotics/ros_packages/planners_brubotics/tmux_scripts/two_drones_final_maze_both_moving/results/bag-uav1-simulation-f450-rtk-dergbryan_tracker-se3_brubotics_controller.bag" prefix="">
+   <selected_datasources value="/uav1/control_manager/cmd_odom;/uav1/control_manager/dergbryan_tracker/DSM;/uav1/control_manager/dergbryan_tracker/goal_pose;/uav1/control_manager/se3_brubotics_controller/custom_projected_thrust;/uav1/control_manager/se3_brubotics_controller/custom_thrust;/uav1/control_manager/se3_brubotics_controller/hover_thrust;/uav1/control_manager/se3_brubotics_controller/thrust_satlimit;/uav1/control_manager/se3_brubotics_controller/thrust_satlimit_physical;/uav1/control_manager/se3_brubotics_controller/thrust_satval;/uav1/control_manager/se3_brubotics_controller/tilt_angle;/uav1/odometry/uav_state;/uav1/trajectory_references"/>
+   <plugin ID="DataLoad ROS bags">
+    <use_header_stamp value="false"/>
+    <use_renaming_rules value="true"/>
+    <discard_large_arrays value="true"/>
+    <max_array_size value="100"/>
+   </plugin>
+  </fileInfo>
+ </previouslyLoaded_Datafiles>
+ <!-- - - - - - - - - - - - - - - -->
+ <customMathEquations/>
+ <snippets/>
+ <!-- - - - - - - - - - - - - - - -->
+</root>
+
