@@ -13,7 +13,7 @@ class subscriber_class:
     print('**********************')
     print(uav_prefix)
     print('**********************')    
-    pos_topic_name = "/odometry/odom_gps"
+    pos_topic_name = "/odometry/odom_main"
     pos_topic_name = uav_prefix + pos_topic_name
     self.sub = rospy.Subscriber(pos_topic_name, Odometry,self.callback)
     self.odo_data = Odometry()
