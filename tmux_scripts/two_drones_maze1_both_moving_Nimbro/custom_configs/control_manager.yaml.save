@@ -1,0 +1,33 @@
+# see https://github.com/ctu-mrs/mrs_uav_managers/blob/master/config/default/control_manager.yaml
+# - list of names of dynamically loaded trackers
+trackers : [
+  "MpcTracker", # CTU
+  "LineTracker", # CTU
+  "LandoffTracker", # CTU
+  "JoyTracker", # CTU
+  "MatlabTracker", # CTU
+  "SpeedTracker", # CTU
+  "NullTracker", # CTU
+  "BypassTracker", # brubotics
+  "DergbryanTracker", # brubotics
+]
+
+# - list of names of dynamically loaded controllers
+controllers : [
+  "Se3Controller", # CTU
+  "MpcController", # CTU
+  "FailsafeController", # CTU
+  "EmergencyController", # CTU
+  "Se3BruboticsController", # brubotics
+]
+#disable safety area
+safety:
+  tilt_limit_eland : 90 #75 # [deg]
+  yaw_limit_enabled : 360 # [deg]
+  tilt_limit_disarm : 90 # [deg]
+  tilt_error_disarm :
+    enabled : false
+motor_params:
+  n_motors: 4
+  a:  0.4624
+  b: -0.4545

@@ -1,0 +1,55 @@
+# see https://github.com/ctu-mrs/mrs_uav_odometry/blob/master/config/default_config.yaml
+
+# Estimators used during takeoff
+# Lateral state estimator:
+# OPTFLOW, GPS, OPTFLOWGPS, RTK, ICP, VIO, HECTOR
+lateral_estimator: "RTK"
+
+# Altitude state estimator:
+# HEIGHT - rangefinder
+altitude_estimator: "RTK" #"HEIGHT"
+
+state_estimators:
+  active: ["GPS", "RTK"]
+
+# debug parameters# #{
+debug:
+  pass_rtk_as_odom: false # publish rtk instead of odometry dangerous outside simulation!
+# # #}
+
+#offset:
+#  rtk_offset : 66.98 # [m] # 66.75m + 23cm (height of drone from ground  
+# # #}
+# TO BE ADDED IN /src/odometry.cpp -> first load the param and then add it only when the rtk is on
+
+# altitude estimation parameters# #{
+ 
+altitude:
+  # Altitude limits
+  # max_default: 30.0 # Used only when max_height could not be loaded from world file
+  # Use RTK altitude
+  use_rtk_altitude: true #false # has to be true for correct TF when using RTK altitude
+
+# covariances# #{
+#Now we should try the same thing for Z
+
+ # Covariances of measurements
+  R:
+    height_rtk: [0.01]
+lateral:
+
+
+# covariances# #{
+
+# Process covariance
+  Q: [0.001, 0, 0,
+      0, 0.01, 0,
+      0, 0, 0.01]
+
+# Covariances of measurements
+# good results with this covariance measurements R 
+  rtk:
+    R: [0.001, 0,
+        0, 0.001]
+    Q: [10, 0,
+        0, 10]
