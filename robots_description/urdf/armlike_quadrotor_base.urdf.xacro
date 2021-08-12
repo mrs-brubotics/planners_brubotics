@@ -56,14 +56,14 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <cylinder radius="0.6" length="0.5"/>
+          <cylinder radius="0.3" length="0.5"/>
         </geometry>
       </visual>
 
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <cylinder radius="0.6" length="0.5"/>
+          <cylinder radius="0.3" length="0.5"/>
         </geometry>
       </collision>
     </link>
