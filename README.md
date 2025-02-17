@@ -1,4 +1,4 @@
-# planners_brubotics (beta)
+# planners_brubotics (beta version)
 ![alt text](https://github.com/mrs-brubotics/planners_brubotics/blob/main/.fig/background.jpg)
 ## Prerequisites
 * [MRS](https://github.com/ctu-mrs/mrs_uav_system)
@@ -18,7 +18,7 @@ pip install numpy
 ```
 source devel/setup.bash
 ```
-* Launch moveit planner:
+* Launch MoveIt planner:
 ```
 roslaunch planners_brubotics execute.launch
 ```
